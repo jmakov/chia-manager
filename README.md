@@ -11,5 +11,4 @@ https://github.com/Chia-Network/chia-blockchain/wiki/Connecting-the-UI-to-a-remo
 ## Disable external disks spinning down  
 `$ crontab -e`
 
-`*/5 * * * * /home/toaster/workspace/chia-manager/scripts/keep_external_hdds_running.sh
-`
+`*/5 * * * * /bin/touch /dev/sdb &>/dev/null`
