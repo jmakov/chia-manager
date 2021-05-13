@@ -7,7 +7,7 @@ import shutil
 import sys
 import time
 
-from src import utils
+import utils
 
 EXTENSION_CHIA_PLOT_DONE = ".plot"
 LOG_PATH = "/var/log/chia-manager/plot-mover.log"

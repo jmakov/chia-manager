@@ -6,7 +6,7 @@ import time
 
 import yaml
 
-from src import utils
+import utils
 
 LOG_PATH = "/var/log/chia-manager/worker_starter.log"
 LOG_PATH_WORKERS = "/var/log/chia-manager/workers"
