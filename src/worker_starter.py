@@ -1,6 +1,7 @@
 import logging
 import multiprocessing
 import os
+import shutil
 import sys
 import time
 
@@ -38,7 +39,10 @@ if __name__ == '__main__':
         for worker_info in worker_infos:
             workers_to_start += worker_info["workers"]
 
-            # TODO: clean temp dirs
+            # clean temp dirs
+            path_tmp = worker_info["path_tmp"]
+            logger.info(f"Deleting tmp dir: {path_tmp}")
+            shutil.rmtree(path_tmp)
 
             # set init time so that the workers will be started in the first loop
             worker_timekeeper[worker_info["worker_name_prefix"]] = 0
