@@ -50,6 +50,7 @@ if __name__ == '__main__':
             worker_info["workers_active"] = 0
 
         cpu_cores_used = 0
+        _core_end = -1      # core count starts with 0
         while workers_to_start > 0:
             for worker_info in worker_infos:
                 if worker_info["workers"] > 0:
@@ -67,8 +68,15 @@ if __name__ == '__main__':
                         worker_number = worker_info["workers_active"]
                         logger.info(f"Starting worker: {worker_name}{worker_number}")
 
+                        if threads_per_worker > 1:
+                            _core_start = _core_end + 1
+                            _core_end = _core_start + threads_per_worker - 1
+                            taskset_cpu_list = f"{_core_start}-{_core_end}"
+                        else:
+                            taskset_cpu_list = cpu_cores_used
+
                         command_chia_plots = \
-                            f"nohup taskset --cpu-list {cpu_cores_used} " \
+                            f"nohup taskset --cpu-list {taskset_cpu_list} " \
                             f"{path_chia_source}/venv/bin/python3 " \
                             f"{path_chia_source}/venv/bin/chia plots create -a{fingerprint} " \
                             f"-b{ram_usage} -u128 -r{threads_per_worker} -k32 -n100000 " \
