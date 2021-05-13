@@ -2,25 +2,15 @@
 
 import getopt
 import logging
-from logging import handlers
 import os
 import shutil
 import sys
 import time
 
+from src import utils
+
 EXTENSION_CHIA_PLOT_DONE = ".plot"
-
-
-def configure_logger(logger):
-    logger.setLevel(logging.DEBUG)
-    log_path = "/var/log/chia-manager/chia-manager.log"
-    fh = handlers.RotatingFileHandler(log_path, backupCount=2, maxBytes=5000000)
-
-    fh.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(asctime)s %(name)s.%(funcName)s:%(lineno)s:%(levelname)s:%(message)s")
-    fh.setFormatter(formatter)
-    logger.addHandler(fh)
-    logging.info("Logger configured")
+LOG_PATH = "/var/log/chia-manager/plot-mover.log"
 
 
 if __name__ == '__main__':
@@ -51,7 +41,7 @@ if __name__ == '__main__':
         sys.exit(2)
 
     try:
-        configure_logger(logger)
+        utils.configure_logger(logger, LOG_PATH)
         logger.info(f"Started with args: {opts}")
 
         while True:
