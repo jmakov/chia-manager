@@ -10,6 +10,7 @@ from utils import log
 
 LOG_PATH = "/var/log/chia-manager/worker_starter.log"
 LOG_PATH_WORKERS = "/var/log/chia-manager/workers"
+MIN_TIME_BETWEEN_STARTING_WORKERS = 1800
 
 
 if __name__ == '__main__':
@@ -78,7 +79,9 @@ if __name__ == '__main__':
                         worker_info["workers"] -= 1
                         workers_to_start -= 1
                         logger.info(f"Cpu cores used: {cpu_cores_used}")
-            time.sleep(1800)
+
+            logger.info(f"Sleeping for {MIN_TIME_BETWEEN_STARTING_WORKERS}s")
+            time.sleep(MIN_TIME_BETWEEN_STARTING_WORKERS)
 
         logger.info("Done. No more workers to start.")
     except Exception as e:
