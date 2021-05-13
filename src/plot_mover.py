@@ -19,6 +19,14 @@ EXTENSION_CHIA_PLOT_DONE = "plot"
 LOG_PATH = "/var/log/chia-manager/plot-mover.log"
 
 
+def print_script_help():
+    print(
+        "Usage: python plot_mover.py [OPTION] archive_path\n"
+        "OPTIONS:"
+        "   -d, --destdirpath\n"
+        "       Path to archive finished plots.")
+
+
 if __name__ == '__main__':
     logger = logging.getLogger()
     log.configure_logger(logger, LOG_PATH)
@@ -27,17 +35,20 @@ if __name__ == '__main__':
         path_archived_plots = ""
 
         opts, args = getopt.getopt(sys.argv[1:], "h:d:", ["help", "destdirpath"])
-        logger.info(f"Started with args: {opts}")
+        logger.info(f"Started with args: {args}")
 
         if not opts or len(opts) < 1:
-            raise RuntimeError("Not enough args, run with -h for help")
+            print("No options or not enough options.")
+            print_script_help()
+            sys.exit(2)
 
         for opt, arg in opts:
             if opt in ("-h", "--help"):
-                logger.info(
+                print_script_help()
+                print(
                     "Make sure /var/log/chia-manager/ is writable for the user that runs this script."
                     "Usage: python this_script_name -w chia_fin_plots_path -d chia_archived_plots_path")
-                sys.exit()
+                sys.exit(2)
             elif opt in (["-d", "--destdirpath"]):
                 path_archived_plots = arg
     except getopt.GetoptError as e:
