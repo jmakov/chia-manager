@@ -62,7 +62,8 @@ if __name__ == '__main__':
 
                         command_chia_plots = \
                             f"nohup taskset --cpu-list {cpu_cores_used} " \
-                            f"{path_chia_source}/venv/bin/python3 chia plots create -a{fingerprint} " \
+                            f"{path_chia_source}/venv/bin/python3 " \
+                            f"{path_chia_source}/venv/bin/chia plots create -a{fingerprint} " \
                             f"-b4096 -u128 -r1 -k32 -n100000 " \
                             f"-f{farmer_pubkey} " \
                             f"-p{pool_pubkey} " \
