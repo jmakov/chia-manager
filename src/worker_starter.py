@@ -61,7 +61,7 @@ if __name__ == '__main__':
                         logger.info(f"Starting worker: {worker_name}{worker_number}")
 
                         command_chia_plots = \
-                            f"source {path_chia_source}/activate; " \
+                            f"source {path_chia_source}/venv/bin/activate; " \
                             f"nohup taskset --cpu-list {cpu_cores_used} chia plots create -a{fingerprint} " \
                             f"-b4096 -u128 -r1 -k32 -n100000 " \
                             f"-f{farmer_pubkey} " \
