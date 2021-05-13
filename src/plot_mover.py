@@ -7,7 +7,7 @@ import shutil
 import sys
 import time
 
-import utils
+from utils import log
 
 EXTENSION_CHIA_PLOT_DONE = ".plot"
 LOG_PATH = "/var/log/chia-manager/plot-mover.log"
@@ -41,7 +41,7 @@ if __name__ == '__main__':
         sys.exit(2)
 
     try:
-        utils.configure_logger(logger, LOG_PATH)
+        log.configure_logger(logger, LOG_PATH)
         logger.info(f"Started with args: {opts}")
 
         while True:

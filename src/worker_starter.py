@@ -6,7 +6,7 @@ import time
 
 import yaml
 
-import utils
+from utils import log
 
 LOG_PATH = "/var/log/chia-manager/worker_starter.log"
 LOG_PATH_WORKERS = "/var/log/chia-manager/workers"
@@ -15,7 +15,7 @@ LOG_PATH_WORKERS = "/var/log/chia-manager/workers"
 if __name__ == '__main__':
     logger = logging.getLogger()
 
-    utils.configure_logger(logger, LOG_PATH)
+    log.configure_logger(logger, LOG_PATH)
     logger.info("Started")
 
     cpu_cores_available = multiprocessing.cpu_count()
