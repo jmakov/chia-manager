@@ -55,6 +55,7 @@ if __name__ == '__main__':
 
                     if time_now - time_last_run > time_between_starting_workers:
                         threads_per_worker = worker_info["threads_per_worker"]
+                        ram_usage = worker_info["ram_usage"]
                         worker_timekeeper[worker_info["worker_name_prefix"]] = time_now
                         worker_name = worker_info["worker_name_prefix"]
                         path_tmp = worker_info["path_tmp"]
@@ -66,7 +67,7 @@ if __name__ == '__main__':
                             f"nohup taskset --cpu-list {cpu_cores_used} " \
                             f"{path_chia_source}/venv/bin/python3 " \
                             f"{path_chia_source}/venv/bin/chia plots create -a{fingerprint} " \
-                            f"-b4096 -u128 -r{threads_per_worker} -k32 -n100000 " \
+                            f"-b{ram_usage} -u128 -r{threads_per_worker} -k32 -n100000 " \
                             f"-f{farmer_pubkey} " \
                             f"-p{pool_pubkey} " \
                             f"-t{path_tmp}/worker{worker_number} " \
