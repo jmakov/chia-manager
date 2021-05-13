@@ -9,21 +9,25 @@ plotting_info:
       path_fin_plots: /mnt/nvme0n1/chia/plots
       workers: 1
       time_between_starting_workers: 0
+      threads_per_worker: 1
     - worker_name_prefix: nvme1n1
       path_tmp: /mnt/nvme1n1/chia/tmp
       path_fin_plots: /mnt/nvme1n1/chia/plots
       workers: 7
       time_between_starting_workers: 3600
+      threads_per_worker: 1
     - worker_name_prefix: nvme2n1
       path_tmp: /mnt/nvme2n1/chia/tmp
       path_fin_plots: /mnt/nvme2n1/chia/plots
       workers: 7
       time_between_starting_workers: 3600
+      threads_per_worker: 1
     - worker_name_prefix: nvme3n1
       path_tmp: /mnt/nvme3n1/chia/tmp
       path_fin_plots: /mnt/nvme3n1/chia/plots
       workers: 7
       time_between_starting_workers: 3600
+      threads_per_worker: 1
 buffers:
   - /mnt/sdb
   - /mnt/sdc

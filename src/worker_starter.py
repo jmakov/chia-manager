@@ -32,10 +32,13 @@ if __name__ == '__main__':
         worker_infos = plotting_info["worker_info"]
         logger.info(f"Worker infos: {worker_infos}")
 
+        # init timekeeper and clean temp dirs
         workers_to_start = 0
         worker_timekeeper = {}
         for worker_info in worker_infos:
             workers_to_start += worker_info["workers"]
+
+            # TODO: clean temp dirs
 
             # set init time so that the workers will be started in the first loop
             worker_timekeeper[worker_info["worker_name_prefix"]] = 0
@@ -50,10 +53,8 @@ if __name__ == '__main__':
                     time_last_run = worker_timekeeper[worker_info["worker_name_prefix"]]
                     time_between_starting_workers = worker_info["time_between_starting_workers"]
 
-                    if cpu_cores_available == cpu_cores_used:
-                        raise RuntimeWarning("No more CPU cores available. Exiting.")
-
                     if time_now - time_last_run > time_between_starting_workers:
+                        threads_per_worker = worker_info["threads_per_worker"]
                         worker_timekeeper[worker_info["worker_name_prefix"]] = time_now
                         worker_name = worker_info["worker_name_prefix"]
                         path_tmp = worker_info["path_tmp"]
@@ -65,7 +66,7 @@ if __name__ == '__main__':
                             f"nohup taskset --cpu-list {cpu_cores_used} " \
                             f"{path_chia_source}/venv/bin/python3 " \
                             f"{path_chia_source}/venv/bin/chia plots create -a{fingerprint} " \
-                            f"-b4096 -u128 -r1 -k32 -n100000 " \
+                            f"-b4096 -u128 -r{threads_per_worker} -k32 -n100000 " \
                             f"-f{farmer_pubkey} " \
                             f"-p{pool_pubkey} " \
                             f"-t{path_tmp}/worker{worker_number} " \
@@ -80,8 +81,9 @@ if __name__ == '__main__':
                         workers_to_start -= 1
                         logger.info(f"Cpu cores used: {cpu_cores_used}")
 
-            logger.info(f"Sleeping for {MIN_TIME_BETWEEN_STARTING_WORKERS}s")
-            time.sleep(MIN_TIME_BETWEEN_STARTING_WORKERS)
+            if workers_to_start > 0:
+                logger.info(f"Sleeping for {MIN_TIME_BETWEEN_STARTING_WORKERS}s")
+                time.sleep(MIN_TIME_BETWEEN_STARTING_WORKERS)
 
         logger.info("Done. No more workers to start.")
     except Exception as e:
