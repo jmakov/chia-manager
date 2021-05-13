@@ -29,4 +29,10 @@ Disable reserved space:
 
 # Requirements
 ## worker_starter
-Expects to be writable: /var/log/chia-manager/workers
+Must be writable: 
+
+`/var/log/chia-manager/workers`
+
+Must be readable: 
+
+`/etc/chia-manager/config.yaml`
