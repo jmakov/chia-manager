@@ -11,7 +11,6 @@ from utils import log
 
 LOG_PATH = "/var/log/chia-manager/worker_starter.log"
 LOG_PATH_WORKERS = "/var/log/chia-manager/workers"
-MIN_TIME_BETWEEN_STARTING_WORKERS = 1800
 
 
 if __name__ == '__main__':
@@ -30,6 +29,7 @@ if __name__ == '__main__':
         farmer_pubkey = plotting_info["farmer_pubkey"]
         pool_pubkey = plotting_info["pool_pubkey"]
         worker_infos = plotting_info["worker_info"]
+        min_time_between_starting_workers = plotting_info["min_time_between_starting_workers"]
         logger.info(f"Worker infos: {worker_infos}")
 
         # init timekeeper and clean temp dirs
@@ -41,7 +41,10 @@ if __name__ == '__main__':
             # clean temp dirs
             path_tmp = worker_info["path_tmp"]
             logger.info(f"Deleting tmp dir: {path_tmp}")
-            shutil.rmtree(path_tmp)
+            try:
+                shutil.rmtree(path_tmp)
+            except FileNotFoundError as e:
+                logger.warning(e)
 
             # set init time so that the workers will be started in the first loop
             worker_timekeeper[worker_info["worker_name_prefix"]] = 0
@@ -100,8 +103,8 @@ if __name__ == '__main__':
                         logger.info(f"Cpu cores used: {cpu_cores_used}")
 
             if workers_to_start > 0:
-                logger.info(f"Sleeping for {MIN_TIME_BETWEEN_STARTING_WORKERS}s")
-                time.sleep(MIN_TIME_BETWEEN_STARTING_WORKERS)
+                logger.info(f"Sleeping for {min_time_between_starting_workers}s")
+                time.sleep(min_time_between_starting_workers)
 
         logger.info("Done. No more workers to start.")
     except Exception as e:

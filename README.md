@@ -18,6 +18,10 @@ Disable reserved space:
 
 `$sudo tune2fs -m0 /dev/DEVICE`
 
+Prevent disk spinning down:
+
+`sudo hdparm -B 254 /dev/DEVICE`
+
 ### Filesystem optimizations:
 /etc/fstab:
 
