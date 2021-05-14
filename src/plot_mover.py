@@ -34,7 +34,7 @@ if __name__ == '__main__':
     try:
         path_archived_plots = ""
 
-        opts, args = getopt.getopt(sys.argv[1:], "h:d:", ["help", "destdirpath"])
+        opts, args = getopt.getopt(sys.argv[1:], "h:d:", ["help", "destdirpath="])
         logger.info(f"Started with args: {args}")
 
         if not opts or len(opts) < 1:
@@ -69,7 +69,6 @@ if __name__ == '__main__':
             fpaths_to_move = []
             for path in paths_fin_plots:
                 fpaths_to_move += glob.glob(path + os.sep + "*." + EXTENSION_CHIA_PLOT_DONE)
-            logger.info(f"Paths to archive: {fpaths_to_move}")
 
             for fpath in fpaths_to_move:
                 logger.info(f"Moving: {fpath} to {path_archived_plots}")
