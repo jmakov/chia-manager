@@ -11,6 +11,7 @@ plotting_info:
       time_between_starting_workers: 0
       threads_per_worker: 1
       ram_usage: 3400
+      pin_to_core: False
     - worker_name_prefix: nvme1n1
       path_tmp: /mnt/nvme1n1/chia/tmp
       path_fin_plots: /mnt/nvme1n1/chia/plots
@@ -18,6 +19,7 @@ plotting_info:
       time_between_starting_workers: 3600
       threads_per_worker: 1
       ram_usage: 3400
+      pin_to_core: False
     - worker_name_prefix: nvme2n1
       path_tmp: /mnt/nvme2n1/chia/tmp
       path_fin_plots: /mnt/nvme2n1/chia/plots
@@ -25,6 +27,7 @@ plotting_info:
       time_between_starting_workers: 3600
       threads_per_worker: 1
       ram_usage: 3400
+      pin_to_core: False
     - worker_name_prefix: nvme3n1
       path_tmp: /mnt/nvme3n1/chia/tmp
       path_fin_plots: /mnt/nvme3n1/chia/plots
@@ -32,6 +35,7 @@ plotting_info:
       time_between_starting_workers: 3600
       threads_per_worker: 1
       ram_usage: 3400
+      pin_to_core: False
 
 buffers:
   - /mnt/sdb

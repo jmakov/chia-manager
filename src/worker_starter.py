@@ -59,6 +59,7 @@ if __name__ == '__main__':
 
                     if time_now - time_last_run > time_between_starting_workers:
                         threads_per_worker = worker_info["threads_per_worker"]
+                        pin_to_core = worker_info["pin_to_core"]
                         ram_usage = worker_info["ram_usage"]
                         worker_timekeeper[worker_info["worker_name_prefix"]] = time_now
                         worker_name = worker_info["worker_name_prefix"]
@@ -67,15 +68,20 @@ if __name__ == '__main__':
                         worker_number = worker_info["workers_active"]
                         logger.info(f"Starting worker: {worker_name}{worker_number}")
 
-                        if threads_per_worker > 1:
-                            _core_start = _core_end + 1
-                            _core_end = _core_start + threads_per_worker - 1
-                            taskset_cpu_list = f"{_core_start}-{_core_end}"
+                        if pin_to_core:
+                            if threads_per_worker > 1:
+                                _core_start = _core_end + 1
+                                _core_end = _core_start + threads_per_worker - 1
+                                taskset_cpu_list = f"{_core_start}-{_core_end}"
+                            else:
+                                taskset_cpu_list = cpu_cores_used
+
+                            taskset_cmd = f"taskset --cpu-list {taskset_cpu_list}"
                         else:
-                            taskset_cpu_list = cpu_cores_used
+                            taskset_cmd = ""
 
                         command_chia_plots = \
-                            f"nohup taskset --cpu-list {taskset_cpu_list} " \
+                            f"nohup {taskset_cmd} " \
                             f"{path_chia_source}/venv/bin/python3 " \
                             f"{path_chia_source}/venv/bin/chia plots create " \
                             f"-b{ram_usage} -u128 -r{threads_per_worker} -k32 -n100000 " \
