@@ -29,7 +29,6 @@ if __name__ == '__main__':
         path_chia_source = plotting_info["path_chia_source"]
         farmer_pubkey = plotting_info["farmer_pubkey"]
         pool_pubkey = plotting_info["pool_pubkey"]
-        fingerprint = plotting_info["fingerprint"]
         worker_infos = plotting_info["worker_info"]
         logger.info(f"Worker infos: {worker_infos}")
 
@@ -78,7 +77,7 @@ if __name__ == '__main__':
                         command_chia_plots = \
                             f"nohup taskset --cpu-list {taskset_cpu_list} " \
                             f"{path_chia_source}/venv/bin/python3 " \
-                            f"{path_chia_source}/venv/bin/chia plots create -a{fingerprint} " \
+                            f"{path_chia_source}/venv/bin/chia plots create " \
                             f"-b{ram_usage} -u128 -r{threads_per_worker} -k32 -n100000 " \
                             f"-f{farmer_pubkey} " \
                             f"-p{pool_pubkey} " \

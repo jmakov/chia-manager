@@ -2,7 +2,6 @@ plotting_info:
   path_chia_source: /home/toaster/workspace/chia-blockchain
   farmer_pubkey: ab179b1afdb7fef936b6b462f451a974c82c2fa8fca202d41aa946f7c6af80c257c12e382860bd4d6899e9c9efd6e92b
   pool_pubkey: b8f3748f3b46bf737d5cb5319eb584747b7d61ca9b24558452123a42b9d464af8e0ad2514701d274fb3fe2f6be5acdbe
-  fingerprint: 767414369
 
   worker_info:
     - worker_name_prefix: nvme0n1
