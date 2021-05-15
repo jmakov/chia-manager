@@ -63,14 +63,15 @@ if __name__ == '__main__':
         while True:
             for worker_info in plotting_info["worker_info"]:
                 path_fin_plots = worker_info["path_fin_plots"]
-                fpath_to_move = glob.glob(path_fin_plots + os.sep + "*." + EXTENSION_CHIA_PLOT_DONE)
+                fpaths_to_move = glob.glob(path_fin_plots + os.sep + "*." + EXTENSION_CHIA_PLOT_DONE)
 
                 if path_archived_plots in path_fin_plots:
                     # Skip moving from disk A to disk A
                     continue
-                elif fpath_to_move:
-                    logger.info(f"Moving: {fpath_to_move} to {path_archived_plots}")
-                    shutil.move(fpath_to_move, path_archived_plots)
+                elif fpaths_to_move:
+                    for fp in fpaths_to_move:
+                        logger.info(f"Moving: {fp} to {path_archived_plots}")
+                        shutil.move(fp, path_archived_plots)
                     break
 
             time.sleep(60)
