@@ -65,7 +65,10 @@ if __name__ == '__main__':
                 path_fin_plots = worker_info["path_fin_plots"]
                 fpath_to_move = glob.glob(path_fin_plots + os.sep + "*." + EXTENSION_CHIA_PLOT_DONE)
 
-                if fpath_to_move:
+                if path_archived_plots in path_fin_plots:
+                    # Skip moving from disk A to disk A
+                    continue
+                elif fpath_to_move:
                     logger.info(f"Moving: {fpath_to_move} to {path_archived_plots}")
                     shutil.move(fpath_to_move, path_archived_plots)
                     break
