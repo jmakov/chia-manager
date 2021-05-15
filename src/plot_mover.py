@@ -59,20 +59,16 @@ if __name__ == '__main__':
         with open("/etc/chia-manager/config.yaml") as f:
             plotting_info = yaml.safe_load(f)["plotting_info"]
 
-        # get all paths we have to scan for finished plots
-        paths_fin_plots = []
-        for worker_info in plotting_info["worker_info"]:
-            paths_fin_plots.append(worker_info["path_fin_plots"])
-
+        # We always start from the upper part of the config file to move finished plots first from nvme storage.
         while True:
-            # collect finished plots from all workers
-            fpaths_to_move = []
-            for path in paths_fin_plots:
-                fpaths_to_move += glob.glob(path + os.sep + "*." + EXTENSION_CHIA_PLOT_DONE)
+            for worker_info in plotting_info["worker_info"]:
+                path_fin_plots = worker_info["path_fin_plots"]
+                fpath_to_move = glob.glob(path_fin_plots + os.sep + "*." + EXTENSION_CHIA_PLOT_DONE)
 
-            for fpath in fpaths_to_move:
-                logger.info(f"Moving: {fpath} to {path_archived_plots}")
-                shutil.move(fpath, path_archived_plots)
+                if fpath_to_move:
+                    logger.info(f"Moving: {fpath_to_move} to {path_archived_plots}")
+                    shutil.move(fpath_to_move, path_archived_plots)
+                    break
 
             time.sleep(60)
     except Exception as e:
